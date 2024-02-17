@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:widget_wizards/NavBar.dart';
+import 'package:widget_wizards/view/donate.dart';
+import 'package:widget_wizards/view/timepass.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(home: Donate()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: SafeArea(
           child: Scaffold(
             appBar: AppBar(
