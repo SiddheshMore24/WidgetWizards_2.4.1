@@ -4,7 +4,7 @@ import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/timepass.dart';
 
 void main() {
-  runApp(MaterialApp(home: Donate()));
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
