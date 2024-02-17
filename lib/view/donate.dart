@@ -1,12 +1,46 @@
 import 'package:flutter/material.dart';
 
+<<<<<<< HEAD
 import '../model/project.dart';
+=======
+void main() {
+  runApp(Donate());
+}
+>>>>>>> d5e67c52b15082b4e9d2c6978264a94e4ffb3b03
 
 class Donate extends StatelessWidget {
-  const Donate({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Content & Donation'),
+          ),
+          body: Center(
+            child: Container(
+              height: MediaQuery.of(context).size.width * 0.5,
+              margin: const EdgeInsets.all(8.0),
+              child: CellWidget(
+                imageUrl: 'assets/images/BlackClover.jpg',
+                description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque dignissim massa euismod ipsum sollicitudin, id facilisis libero feugiat. Sed urna risus, semper in varius id, gravida aliquam lorem. Nunc tristique magna sed luctus rutrum. Proin hendrerit erat nec est luctus, vel rutrum odio posuere. Nunc a euismod dolor. Aenean consequat.',
+              ),
+            ),
+          )
+      ),
+    );
+  }
+}
+
+class CellWidget extends StatelessWidget {
+  final String imageUrl;
+  final String description;
+
+  CellWidget({required this.imageUrl, required this.description});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Scaffold(
       appBar: AppBar(
         title: Text("Donations"),
@@ -45,10 +79,48 @@ class Donate extends StatelessWidget {
             ),
           );
         },),
+=======
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Image.asset(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16.0),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Handle donate button press
+                },
+                child: const Text('Donate'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle learn more button press
+                },
+                child: const Text('Learn More'),
+              ),
+            ],
+          ),
+        ],
+      ),
+>>>>>>> d5e67c52b15082b4e9d2c6978264a94e4ffb3b03
     );
   }
 }
 
+<<<<<<< HEAD
 List<Project> projectList = [
   Project(
     headline: "Project 1",
@@ -132,4 +204,8 @@ List<Project> projectList = [
     description: "Description of Project 20",
   ),
 ];
+=======
+
+
+>>>>>>> d5e67c52b15082b4e9d2c6978264a94e4ffb3b03
 
