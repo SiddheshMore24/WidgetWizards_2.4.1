@@ -36,19 +36,19 @@ class _NavBarState extends State<NavBar> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.home,
+                Icons.fireplace_outlined,
                 color: index == 0 ? Colors.blue : Colors.grey,
               ),
               label: "News"),
           BottomNavigationBarItem(
             icon:
-            Icon(color: index == 1 ? Colors.blue : Colors.grey, Icons.chat),
+            Icon(color: index == 1 ? Colors.blue : Colors.grey, Icons.monetization_on_outlined),
             label: "Donation",
           ),
           BottomNavigationBarItem(
               icon: Icon(
                   color: index == 2 ? Colors.blue : Colors.grey,
-                  Icons.account_circle_rounded),
+                  Icons.history),
               label: "Transaction"),
           BottomNavigationBarItem(
               icon: Icon(
