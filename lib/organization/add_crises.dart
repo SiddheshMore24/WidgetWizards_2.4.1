@@ -4,7 +4,9 @@ import 'package:widget_wizards/utility/Image_capture.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as Path;
 import 'package:intl/intl.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 final formatter = DateFormat.yMMMd();
 
@@ -73,6 +75,25 @@ class _AddCrisesState extends State<AddCrises> {
     });
   }
 
+  // Future<String> uploadImageToFirebase(File imageFile) async {
+  //   // Create a reference to the location you want to upload to in Firebase Storage
+  //   Reference storageReference = FirebaseStorage.instance
+  //       .ref()
+  //       .child('images/${Path.basename(imageFile.path)}');
+
+  //   // Upload the file to Firebase Storage
+  //   UploadTask uploadTask = storageReference.putFile(imageFile);
+
+  //   // Await the completion of the upload task
+  //   await uploadTask;
+
+  //   // Get the download URL for the image
+  //   String downloadURL = await storageReference.getDownloadURL();
+
+  //   return downloadURL;
+  //   print(downloadURL);
+  // }
+
   void _saveChanges(BuildContext context) async {
     // Implement saving changes functionality here
     // For demonstration purposes, we'll just print the updated values
@@ -81,54 +102,46 @@ class _AddCrisesState extends State<AddCrises> {
     print('Description: ${descriptionController.text}');
     print('Total Injured: ${totalInjuredController.text}');
     print('Total Deaths: ${totalDeathsController.text}');
-    print('Date : ${selectedDate}');
+    print('Date : ${formatter.format(_selectedDate!)}');
+    // if (widget.crises.image != null) {
+    //   String ImageUrl = await uploadImageToFirebase(widget.crises.image!);
 
-    final url = Uri.https(
-        "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
-    final response = await http.post(url,
-    headers: {
-      'Content-type':'application/json',
-    },
-    body: json.encode(
-          { 'title': titleController.text,
+      final url = Uri.https(
+          "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
+      final response = await http.post(url,
+          headers: {
+            'Content-type': 'crises/json',
+          },
+          body: json.encode({
+            'title': titleController.text,
             'location': locationController.text,
-            'description':descriptionController.text,
-            'totalInjured':totalInjuredController.text,
-            'totalDeath':totalDeathsController.text,
-            'date':formatter.format(_selectedDate!),
-            }
-      )
-    );
+            'description': descriptionController.text,
+            'totalInjured': totalInjuredController.text,
+            'totalDeath': totalDeathsController.text,
+            'date': formatter.format(_selectedDate!),
+            // 'image': ImageUrl,
+          }));
+      print(response);
 
-    // Show a success message
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Icon(Icons.check_circle, color: Colors.green, size: 50),
-        content: Text('Crises saved successfully'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              // Navigator.of(context).pop();
-              // // Navigate back to previous profile page with editing mode turned off
-              // // Navigator.pushReplacement(
-              // //   context,
-              // //   MaterialPageRoute(
-              // //     builder: (context) => ProfilePage(user: User(
-              // //       name: nameController.text,
-              // //       email: emailController.text,
-              // //       phoneNumber: phoneNumberController.text,
-              // //       address: addressController.text,
-              // //     )),
-              // //   ),
-              // // );
-            },
-            child: Text('OK'),
-          ),
-        ],
-      ),
-    );
+      // Show a success message
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Icon(Icons.check_circle, color: Colors.green, size: 50),
+          content: Text('Crises saved successfully'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    // } else {
+    //   print("Image is NULL");
+    // }
   }
 
   @override
@@ -172,24 +185,28 @@ class _AddCrisesState extends State<AddCrises> {
                   _buildInfoRow('Total Injured:', totalInjuredController),
                   _buildInfoRow('Total Death:', totalDeathsController),
                   SizedBox(height: 20.0),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _selectedDate == null
-                              ? 'No date selected'
-                              : formatter.format(_selectedDate!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        _selectedDate == null
+                            ? 'No date selected'
+                            : formatter.format(_selectedDate!),
+                      ),
+                      IconButton(
+                        onPressed: _presentDatePicker,
+                        icon: const Icon(
+                          Icons.calendar_month,
                         ),
-                        IconButton(
-                          onPressed: _presentDatePicker,
-                          icon: const Icon(
-                            Icons.calendar_month,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _saveChanges(context);
+                    },
+                    child: Text('Save'),
                   ),
                 ],
               ),

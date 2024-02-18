@@ -1,8 +1,9 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:widget_wizards/organization/organization_homepage.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key,required this.emailId}) ;
+  const OtpScreen({super.key, required this.emailId});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -102,13 +103,14 @@ class _OtpScreenState extends State<OtpScreen> {
                   children: [
                     Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("Otp Will be send on your email Id : ${widget.emailId}")),
+                        child: Text(
+                            "Otp Will be send on your email Id : ${widget.emailId}")),
                     ElevatedButton(
                         onPressed: () async {
                           myauth.setConfig(
-                              appEmail: "flutterteam2026@gmail.com",
+                              appEmail: "sujit.shaha22@pccoepune.org",
                               appName: "Email OTP",
-                              userEmail: email.text,
+                              userEmail: widget.emailId,
                               otpLength: 6,
                               otpType: OTPType.digitsOnly);
                           myauth.setTemplate(render: template);
@@ -146,6 +148,11 @@ class _OtpScreenState extends State<OtpScreen> {
                                 .showSnackBar(const SnackBar(
                               content: Text("OTP is verified"),
                             ));
+                            Navigator.push(
+                              context,
+                              (MaterialPageRoute(
+                                  builder: (ctx) => OrganizationScreen())),
+                            );
                           } else {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
