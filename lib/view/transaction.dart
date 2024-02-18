@@ -48,7 +48,7 @@ class Transaction extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UsageOfDonation(donation: donations[index]),
+                      builder: (context) => UsageOfDonation(title: donations[index].title,amount: donations[index].amount.toStringAsFixed(2),),
                     ),
                   );
                 },

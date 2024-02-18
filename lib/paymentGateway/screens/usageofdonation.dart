@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
+import 'package:widget_wizards/model/user.dart';
 import 'package:widget_wizards/view/donate.dart';
 import 'dart:ui';
 import 'package:widget_wizards/view/transaction.dart';
-
+import 'package:widget_wizards/model/user.dart';
 
 
 
@@ -13,17 +14,18 @@ import 'package:widget_wizards/view/transaction.dart';
 
 class UsageOfDonation extends StatelessWidget {
   // UsageOfDonation({Key key, this.title}) : super(key: key);
-   UsageOfDonation({super.key, required this.donation});
+   UsageOfDonation({super.key,required this.amount, required this.title});
 
-   DonationModel donation = DonationModel(title: "", date: DateTime.now(), amount: 0);
+   
+ 
    // Static member
   // static String getTitle(DonationModel donation) {
   //   return donation.title;
   // }
-
-  static String title = "project title";
-  static String amount = "Amount Paid -> Rs. 500";
-  static String category= "Category -> Food";
+  final String title ;
+  
+  final String amount ;
+  // final String category;
 
   List<DonationModel> donations = [
   DonationModel(title: 'Donated for earthquake relief', date: DateTime.now(), amount: 500),
@@ -32,12 +34,13 @@ class UsageOfDonation extends StatelessWidget {
   // Add more donations as needed
 ];
 
-List<String> process = [
- title, amount, category
-];
 
   @override
   Widget build(BuildContext context) {
+    List<String> process = [
+  title, amount
+];
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Track Status"),
@@ -51,13 +54,12 @@ List<String> process = [
             child: Card(
               // ignore: avoid_unnecessary_containers
               child: Container(
-                width: 120,
-                height: 100,
-                child: Card(
-                elevation: 3,
-                child: Text( process[index]),),),)
+                width: 140,
+                height: 60, 
+                alignment: Alignment.center,           
+                child: Text( process[index]),),)
           ),
-          itemCount: 3,
+          itemCount: 2,
         ),
       ),
     );

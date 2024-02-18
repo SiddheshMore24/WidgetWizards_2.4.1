@@ -171,7 +171,7 @@ class CalamityDetailPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RazorpayPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RazorpayPage(Title :calamity.name)));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blueAccent,

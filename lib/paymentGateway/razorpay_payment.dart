@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
 
 class Trans {
   late int recamount; 
@@ -11,7 +14,8 @@ class Trans {
 }
 
 class RazorpayPage extends StatefulWidget {
-  const RazorpayPage({Key? key}) : super(key: key);
+   RazorpayPage({super.key,required this.Title}) ;
+  String  Title;
 
   @override
   State<RazorpayPage> createState() => _RazorpayPageState();
@@ -20,6 +24,7 @@ class RazorpayPage extends StatefulWidget {
 class _RazorpayPageState extends State<RazorpayPage> {
   late Razorpay _razorpay;
   TextEditingController amtController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   late int recamount; 
   late String title;
   late DateTime date;
@@ -122,12 +127,46 @@ class _RazorpayPageState extends State<RazorpayPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(8),
-              child: TextFormField(
+              child: Column(
+                children: [
+                  TextFormField(
+                    cursorColor: Colors.white,
+                    autofocus: false,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      labelText: 'Enter amount to be paid',
+                      labelStyle: TextStyle(fontSize: 15, color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                          width: 1.0,
+                        ),
+                      ),
+                      errorStyle: TextStyle(color: Colors.red, fontSize: 15),
+                    ),
+                    controller: amtController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please valid amount';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  const SizedBox(
+              height: 30,
+            ),
+                  TextFormField(
                 cursorColor: Colors.white,
                 autofocus: false,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                  labelText: 'Enter amount to be paid',
+                  labelText: 'Enter Donor Name',
                   labelStyle: TextStyle(fontSize: 15, color: Colors.white),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -142,21 +181,39 @@ class _RazorpayPageState extends State<RazorpayPage> {
                   ),
                   errorStyle: TextStyle(color: Colors.red, fontSize: 15),
                 ),
-                controller: amtController,
+                controller: nameController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please valid amount';
+                    return 'Please valid name';
                   } else {
                     return null;
                   }
                 },
               ),
+                ],
+              ),
+              
             ),
             const SizedBox(
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+
+                  final url = Uri.https(
+          "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'user.json');
+      final response = await http.post(url,
+          headers: {
+            'Content-type': 'crises/json',
+          },
+          body: json.encode({
+            'name':nameController.text,
+            'title' : widget.Title,
+            'amount' : int.parse(amtController.text.toString()),
+            // 'image': ImageUrl,
+          }));
+      print(response);
+
 
                   setState(() {
                     int amount = int.parse(amtController.text.toString());
