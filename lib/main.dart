@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>UsageOfDonation()));
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NavBar()));
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (ctx) => ClientProfile()));
                       },
