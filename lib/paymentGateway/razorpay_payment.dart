@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:convert';
+
+class Trans {
+  late int recamount; 
+  late String title;
+  late DateTime date;
+
+  Trans( this.title, this.recamount,  this.date);
+}
 
 class RazorpayPage extends StatefulWidget {
-  const RazorpayPage({Key? key}) : super(key: key);
+   RazorpayPage({super.key,required this.Title}) ;
+  String  Title;
 
   @override
   State<RazorpayPage> createState() => _RazorpayPageState();
@@ -12,13 +24,19 @@ class RazorpayPage extends StatefulWidget {
 class _RazorpayPageState extends State<RazorpayPage> {
   late Razorpay _razorpay;
   TextEditingController amtController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  late int recamount; 
+  late String title;
+  late DateTime date;
+
+  // Trans trans = Trans(title: title, recamount: recamount, date: date);
 
   void openCheckout(amount)  {
     amount = amount * 100;
     var options = {
       'key': 'rzp_test_1DP5mmOlF5G5ag',
       'amount': amount,
-      'name': 'Ashirwad',
+      'name': "Organization",
       'prefill': {
         'contact': '8308112825',
         'email': 'ashirwadkatkamwar@gmail.com'
@@ -36,7 +54,12 @@ class _RazorpayPageState extends State<RazorpayPage> {
     }
   }
 
+  void _recordAmount(int amt) {
+    recamount = amt;
+  }
+
   void handlePaymentSuccess(PaymentSuccessResponse response) {
+    
     Fluttertoast.showToast(
         msg: "Payment successful ${response.paymentId!}",
         toastLength: Toast.LENGTH_SHORT);
@@ -74,87 +97,143 @@ class _RazorpayPageState extends State<RazorpayPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            Image.network(
-              'https://pixlok.com/wp-content/uploads/2021/05/flutter-logo-300x300.jpg',
-              height: 100,
-              width: 300,
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            const Text(
-              'Welcome to Payment gateway',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(100, 146, 222, 143),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 90,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: TextFormField(
-                cursorColor: Colors.white,
-                autofocus: false,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  labelText: 'Enter amount to be paid',
-                  labelStyle: TextStyle(fontSize: 15, color: Colors.white),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 1.0,
-                    ),
-                  ),
-                  errorStyle: TextStyle(color: Colors.red, fontSize: 15),
+              Image.network(
+                'https://img.freepik.com/premium-vector/secure-payment-credit-card-icon-with-shield-secure-transaction-vector-stock-illustration_100456-11325.jpg',
+                height: 100,
+                width: 300,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              const Text(
+                'Thank you for your significant contribution',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
-                controller: amtController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please valid amount';
-                  } else {
-                    return null;
-                  }
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      cursorColor: Colors.white,
+                      autofocus: false,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Enter amount to be paid',
+                        labelStyle: TextStyle(fontSize: 15, color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
+                        ),
+                        errorStyle: TextStyle(color: Colors.red, fontSize: 15),
+                      ),
+                      controller: amtController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please valid amount';
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                height: 30,
+              ),
+                    TextFormField(
+                  cursorColor: Colors.white,
+                  autofocus: false,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Donor Name',
+                    labelStyle: TextStyle(fontSize: 15, color: Colors.white),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 1.0,
+                      ),
+                    ),
+                    errorStyle: TextStyle(color: Colors.red, fontSize: 15),
+                  ),
+                  controller: nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please valid name';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                  ],
+                ),
+
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+
+                    final url = Uri.https(
+            "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'user.json');
+        final response = await http.post(url,
+            headers: {
+              'Content-type': 'crises/json',
+            },
+            body: json.encode({
+              'name':nameController.text,
+              'title' : widget.Title,
+              'amount' : int.parse(amtController.text.toString()),
+              // 'image': ImageUrl,
+            }));
+        print(response);
+
+
+                    setState(() {
+                      int amount = int.parse(amtController.text.toString());
+                      recamount = amount;
+                      openCheckout(amount);
+                    });
+
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text('Make Payment'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-              onPressed: () {
-
-                  setState(() {
-                    int amount = int.parse(amtController.text.toString());
-                    openCheckout(amount);
-                  });
-
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8),
-                child: Text('Make Payment'),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
