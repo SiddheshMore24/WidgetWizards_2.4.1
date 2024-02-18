@@ -4,7 +4,7 @@ import 'package:widget_wizards/organization/add_crises.dart';
 
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:widget_wizards/organization/DonarList.dart';
 import 'package:widget_wizards/organization/crises.dart';
 import 'package:widget_wizards/view/donate.dart';
 
@@ -71,7 +71,9 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calamities'),
+        title: Text('Ongoing Crises',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blue, // Change app bar color
         actions: [
           IconButton(
             onPressed: () {
@@ -99,30 +101,23 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
         itemCount: onGoing.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            padding: EdgeInsets.all(8.0), // Adjust padding
             child: InkWell(
               onTap: () {
                 // Navigate to the detail page when a calamity is tapped
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => CalamityDetailPage(calamity: calamities[index]),
-                //   ),
-                // );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Colors.black,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 3,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DonorList(
+                      title: onGoing[index].title,
                     ),
-                  ],
-                ),
+                  ),
+                );
+              },
+              child: Card(
+                elevation: 4, // Add elevation for a shadow effect
+                // Inside the ListView.builder, modify the ListTile as follows:
+
                 child: ListTile(
                   title: Text(
                     onGoing[index].title,
@@ -132,22 +127,48 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
                       color: Colors.blue, // Change the color as per your design
                     ),
                   ),
-                  subtitle: Text(
-                    onGoing[index].description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black54,
-                    ),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Location: ${onGoing[index].location}',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 4), // Add spacing between items
+                      // Add spacing between items
+                      Text(
+                        'Total Deaths: ${onGoing[index].totalDeaths}',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 4), // Add spacing between items
+                      Text(
+                        'Total Injured: ${onGoing[index].totalInjured}',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      SizedBox(height: 4), // Add spacing between items
+                      Text(
+                        'Date: ${onGoing[index].date}',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ],
                   ),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  leading: Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 36.0,
-                  ),
+                  // leading: Icon(
+                  //   Icons.error_outline,
+                  //   color: Colors.red,
+                  //   size: 36.0,
+                  // ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     color: Colors.blue,

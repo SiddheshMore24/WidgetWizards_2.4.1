@@ -75,74 +75,51 @@ class _AddCrisesState extends State<AddCrises> {
     });
   }
 
-  // Future<String> uploadImageToFirebase(File imageFile) async {
-  //   // Create a reference to the location you want to upload to in Firebase Storage
-  //   Reference storageReference = FirebaseStorage.instance
-  //       .ref()
-  //       .child('images/${Path.basename(imageFile.path)}');
-
-  //   // Upload the file to Firebase Storage
-  //   UploadTask uploadTask = storageReference.putFile(imageFile);
-
-  //   // Await the completion of the upload task
-  //   await uploadTask;
-
-  //   // Get the download URL for the image
-  //   String downloadURL = await storageReference.getDownloadURL();
-
-  //   return downloadURL;
-  //   print(downloadURL);
-  // }
-
   void _saveChanges(BuildContext context) async {
+    // Convert Total Injured and Total Deaths to integers
+
     // Implement saving changes functionality here
     // For demonstration purposes, we'll just print the updated values
     print('Title: ${titleController.text}');
-    print('location: ${locationController.text}');
+    print('Location: ${locationController.text}');
     print('Description: ${descriptionController.text}');
     print('Total Injured: ${totalInjuredController.text}');
     print('Total Deaths: ${totalDeathsController.text}');
     print('Date : ${formatter.format(_selectedDate!)}');
-    // if (widget.crises.image != null) {
-    //   String ImageUrl = await uploadImageToFirebase(widget.crises.image!);
 
-      final url = Uri.https(
-          "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
-      final response = await http.post(url,
-          headers: {
-            'Content-type': 'crises/json',
-          },
-          body: json.encode({
-            'title': titleController.text,
-            'location': locationController.text,
-            'description': descriptionController.text,
-            'totalInjured': totalInjuredController.text,
-            'totalDeath': totalDeathsController.text,
-            'date': formatter.format(_selectedDate!),
-            // 'image': ImageUrl,
-          }));
-      print(response);
+    final url = Uri.https(
+        "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
+    final response = await http.post(url,
+        headers: {
+          'Content-type': 'crises/json',
+        },
+        body: json.encode({
+          'title': titleController.text,
+          'location': locationController.text,
+          'description': descriptionController.text,
+          'totalInjured': totalInjuredController.text,
+          'totalDeath': totalDeathsController.text,
+          'date': formatter.format(_selectedDate!),
+        }));
+    print(response);
 
-      // Show a success message
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Icon(Icons.check_circle, color: Colors.green, size: 50),
-          content: Text('Crises saved successfully'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-    // } else {
-    //   print("Image is NULL");
-    // }
+    // Show a success message
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Icon(Icons.check_circle, color: Colors.green, size: 50),
+        content: Text('Crises saved successfully'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -181,10 +158,22 @@ class _AddCrisesState extends State<AddCrises> {
                   ),
                   SizedBox(height: 20.0),
                   _buildInfoRow('Title:', titleController),
-                  _buildInfoRow('location:', locationController),
+                  _buildInfoRow('Location:', locationController),
                   _buildInfoRow('Description:', descriptionController),
-                  _buildInfoRow('Total Injured:', totalInjuredController),
-                  _buildInfoRow('Total Death:', totalDeathsController),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _buildInfoRow(
+                            'Total Injured:', totalInjuredController),
+                      ),
+                      SizedBox(width: 10.0), // Add spacing between fields
+                      Expanded(
+                        child: _buildInfoRow(
+                            'Total Deaths:', totalDeathsController),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 20.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
