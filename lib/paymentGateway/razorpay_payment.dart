@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+class Trans {
+  late int recamount; 
+  late String title;
+  late DateTime date;
+
+  Trans( this.title, this.recamount,  this.date);
+}
+
 class RazorpayPage extends StatefulWidget {
   const RazorpayPage({Key? key}) : super(key: key);
 
@@ -12,6 +20,11 @@ class RazorpayPage extends StatefulWidget {
 class _RazorpayPageState extends State<RazorpayPage> {
   late Razorpay _razorpay;
   TextEditingController amtController = TextEditingController();
+  late int recamount; 
+  late String title;
+  late DateTime date;
+
+  // Trans trans = Trans(title: title, recamount: recamount, date: date);
 
   void openCheckout(amount)  {
     amount = amount * 100;
@@ -36,7 +49,12 @@ class _RazorpayPageState extends State<RazorpayPage> {
     }
   }
 
+  void _recordAmount(int amt) {
+    recamount = amt;
+  }
+
   void handlePaymentSuccess(PaymentSuccessResponse response) {
+    
     Fluttertoast.showToast(
         msg: "Payment successful ${response.paymentId!}",
         toastLength: Toast.LENGTH_SHORT);
@@ -142,6 +160,7 @@ class _RazorpayPageState extends State<RazorpayPage> {
 
                   setState(() {
                     int amount = int.parse(amtController.text.toString());
+                    recamount = amount;
                     openCheckout(amount);
                   });
 

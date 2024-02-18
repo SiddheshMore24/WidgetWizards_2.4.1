@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_wizards/paymentGateway/screens/usageofdonation.dart';
 
 // Donation model class
 class DonationModel {
@@ -9,6 +10,8 @@ class DonationModel {
   DonationModel({required this.title, required this.date, required this.amount});
 }
 
+
+
 // Dummy list of donations for testing
 List<DonationModel> donations = [
   DonationModel(title: 'Donated for earthquake relief', date: DateTime.now(), amount: 500),
@@ -17,11 +20,13 @@ List<DonationModel> donations = [
   // Add more donations as needed
 ];
 
+
+
 // Donation widget
 class Transaction extends StatelessWidget {
   const Transaction({Key? key});
 
-  final title
+  
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class Transaction extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DonationDetailsPage(donation: donations[index]),
+                      builder: (context) => UsageOfDonation(donation: donations[index]),
                     ),
                   );
                 },
