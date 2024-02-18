@@ -15,11 +15,15 @@ class UsageOfDonation extends StatelessWidget {
   // UsageOfDonation({Key key, this.title}) : super(key: key);
    UsageOfDonation({super.key, required this.donation});
 
-   DonationModel donation ;
+   DonationModel donation = DonationModel(title: "", date: DateTime.now(), amount: 0);
+   // Static member
+  // static String getTitle(DonationModel donation) {
+  //   return donation.title;
+  // }
 
-   String title = "";
-   String amount = "";
-   String category= "";
+  static String title = "project title";
+  static String amount = "Amount Paid -> Rs. 500";
+  static String category= "Category -> Food";
 
   List<DonationModel> donations = [
   DonationModel(title: 'Donated for earthquake relief', date: DateTime.now(), amount: 500),
@@ -29,14 +33,14 @@ class UsageOfDonation extends StatelessWidget {
 ];
 
 List<String> process = [
-  "Donation Successfull ","Amount Paid -> Rs. 500", "Category -> Food"
+ title, amount, category
 ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(donation.title),
+        title: Text("Track Status"),
       ),
       body: Timeline.tileBuilder(
 
