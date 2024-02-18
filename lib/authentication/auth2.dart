@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:widget_wizards/NavBar.dart';
+
+import '../organization/email_otp.dart';
 
 final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -34,6 +37,22 @@ class _AuthScreen2State extends State<AuthScreen2> {
           email: _email,
           password: _password,
         );
+        if (_userType == "Organization") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((ctx) => OtpScreen(emailId: _email)),
+            ),
+          );
+        }
+        else{
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((ctx) => NavBar()),
+            ),
+          );
+        }
       } else {
         userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: _email,

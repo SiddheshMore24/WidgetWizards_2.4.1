@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:widget_wizards/organization/email_otp.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -14,6 +15,9 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _form = GlobalKey<FormState>();
+  final List<String> list = ["User", "Organization"];
+
+  String dropdownValue = "User";
 
   var _isLogin = true;
   var _enteredEmail = '';
@@ -33,6 +37,14 @@ class _AuthScreenState extends State<AuthScreen> {
         final userCredentials = await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
         print(userCredentials);
+        if (dropdownValue == "Organization") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((ctx) => OtpScreen(emailId: _enteredEmail)),
+            ),
+          );
+        }
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
@@ -50,10 +62,6 @@ class _AuthScreenState extends State<AuthScreen> {
       );
     }
   }
-
-  final List<String> list = ["User", "Organization"];
-
-  String dropdownValue = "User";
 
   @override
   Widget build(BuildContext context) {
