@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/NavBar.dart';
+import 'package:widget_wizards/paymentGateway/screens/transactionhistory.dart';
+import 'package:widget_wizards/paymentGateway/screens/usageofdonation.dart';
 import 'package:widget_wizards/firebase_options.dart';
 import 'package:widget_wizards/organization/organization_homepage.dart';
 import 'package:widget_wizards/view/donate.dart';

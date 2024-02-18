@@ -3,6 +3,7 @@ import '../model/user.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
+ 
 
   ProfilePage({required this.user});
 
@@ -45,6 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // Implement saving changes functionality here
     // For demonstration purposes, we'll just print the updated values
     print('Name: ${nameController.text}');
+    
     print('Email: ${emailController.text}');
     print('Phone Number: ${phoneNumberController.text}');
     print('Location: ${locationController.text}');

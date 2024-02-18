@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_wizards/paymentGateway/razorpay_payment.dart';
 import 'package:widget_wizards/view/payment.dart';
 
 // Define a class to represent a calamity
@@ -170,7 +171,8 @@ class CalamityDetailPage extends StatelessWidget {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>PaymentPage()));
+                          
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RazorpayPage(Title :calamity.name)));
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blueAccent,
