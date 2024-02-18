@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:widget_wizards/NavBar.dart';
 import 'package:widget_wizards/firebase_options.dart';
 import 'package:widget_wizards/view/donate.dart';
-import 'package:widget_wizards/view/timepass.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:widget_wizards/authentication/auth.dart';
+
+
+import 'authentication/auth2.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
                       child: Text("UserHomePage")),
                       ElevatedButton(
                       onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AuthScreen()));
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AuthScreen2()));
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (ctx) => ClientProfile()));
                       },

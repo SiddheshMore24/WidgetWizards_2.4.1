@@ -74,6 +74,7 @@ class _NewsState extends State<NewsPage> {
   }
 }
 
+
 class NewsCard extends StatelessWidget {
   final News news;
 
@@ -127,3 +128,4 @@ class NewsCard extends StatelessWidget {
     );
   }
 }
+
