@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "576643122626",
+    "project_id": "widgetwizards-c50c8",
+    "storage_bucket": "widgetwizards-c50c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576643122626:android:350f059cca95a6054ac25b",
+        "android_client_info": {
+          "package_name": "com.example.widget_wizards"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC2bNgx6I34muK1WiqyyMJhD2wzzKkOVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

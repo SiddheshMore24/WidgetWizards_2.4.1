@@ -1,11 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'package:widget_wizards/NavBar.dart';
 import 'package:widget_wizards/paymentGateway/screens/transactionhistory.dart';
 import 'package:widget_wizards/paymentGateway/screens/usageofdonation.dart';
+import 'package:widget_wizards/firebase_options.dart';
+import 'package:widget_wizards/view/donate.dart';
+import 'package:widget_wizards/view/timepass.dart';
 
-void main() {
+import 'package:widget_wizards/authentication/auth.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MaterialApp(home: MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {
@@ -14,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+       debugShowCheckedModeBanner: false,
       home: SafeArea(
           child: Scaffold(
             appBar: AppBar(
@@ -29,6 +39,13 @@ class MyApp extends StatelessWidget {
                         //     builder: (ctx) => ClientProfile()));
                       },
                       child: Text("UserHomePage")),
+                      ElevatedButton(
+                      onPressed: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AuthScreen()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (ctx) => ClientProfile()));
+                      },
+                      child: Text("Authentication")),
                 ],
               ),
             ),
