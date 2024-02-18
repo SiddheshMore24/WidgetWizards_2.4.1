@@ -15,10 +15,10 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int index = 0;
   User user = User(
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phoneNumber: '+1 (123) 456-7890',
-    location: 'Mumbai',
+    name: 'Siddhesh More',
+    email: 'sid.more@example.com',
+    phoneNumber: '+91 (123) 456-7890',
+    location: 'Kolhapur',
   );
 
   void selectItem(int idx) {
