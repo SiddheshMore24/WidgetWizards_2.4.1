@@ -133,6 +133,7 @@ class _AddCrisesState extends State<AddCrises> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: Text('OK'),
             ),
