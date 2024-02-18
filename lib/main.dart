@@ -1,9 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/NavBar.dart';
+import 'package:widget_wizards/firebase_options.dart';
 import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/timepass.dart';
-
-void main() {
+import 'package:widget_wizards/authentication/auth.dart';
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MaterialApp(home: MyApp()));
 }
 
@@ -29,6 +34,13 @@ class MyApp extends StatelessWidget {
                         //     builder: (ctx) => ClientProfile()));
                       },
                       child: Text("UserHomePage")),
+                      ElevatedButton(
+                      onPressed: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AuthScreen()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (ctx) => ClientProfile()));
+                      },
+                      child: Text("Authentication")),
                 ],
               ),
             ),
