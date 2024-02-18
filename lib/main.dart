@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/NavBar.dart';
 import 'package:widget_wizards/firebase_options.dart';
+import 'package:widget_wizards/organization/organization_homepage.dart';
 import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/timepass.dart';
 
@@ -44,6 +45,13 @@ class MyApp extends StatelessWidget {
                         //     builder: (ctx) => ClientProfile()));
                       },
                       child: Text("Authentication")),
+                        ElevatedButton(
+                      onPressed: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>OrganizationScreen()));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (ctx) => ClientProfile()));
+                      },
+                      child: Text("Organization Home Page")),
                 ],
               ),
             ),
