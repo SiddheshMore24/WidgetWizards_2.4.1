@@ -30,7 +30,7 @@ class _NavBarState extends State<NavBar> {
 
   List<Widget> createList() {
     return [
-      News(),
+      NewsPage(),
       Donation(),
       Transaction(),
       ProfilePage(user: user),

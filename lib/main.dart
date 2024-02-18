@@ -4,16 +4,18 @@ import 'package:widget_wizards/NavBar.dart';
 import 'package:widget_wizards/firebase_options.dart';
 import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/timepass.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:widget_wizards/authentication/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MaterialApp(home: MyApp()));
 
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
