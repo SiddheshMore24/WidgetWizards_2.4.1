@@ -25,7 +25,7 @@ class Transaction extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Donations"),
+        title: Text("Transaction History"),
         backgroundColor: Colors.teal, // Change app bar color
       ),
       body: Container(
@@ -61,7 +61,7 @@ class Transaction extends StatelessWidget {
                           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.teal),
                         ),
                         SizedBox(height: 8.0),
-                        Row(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(

@@ -54,102 +54,110 @@ class _AuthScreen2State extends State<AuthScreen2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 150,
-              child: Image.asset(_isLogin ? 'assets/login.png' : 'assets/signup.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    DropdownButtonFormField<String>(
-                      value: _userType,
-                      decoration: const InputDecoration(
-                        labelText: 'User Type',
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      items: _userTypes.map((String userType) {
-                        return DropdownMenuItem<String>(
-                          value: userType,
-                          child: Text(userType),
-                        );
-                      }).toList(),
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          setState(() {
-                            _userType = value;
-                          });
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email Address',
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty ||
-                            !value.contains('@')) {
-                          return 'Please enter a valid email address.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _email = value ?? '';
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      obscureText: true,
-                      validator: (value) {
-                        if (value == null || value.trim().length < 6) {
-                          return 'Password must be at least 6 characters long.';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _password = value ?? '';
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    ElevatedButton(
-                      onPressed: _submitForm,
-                      child: Text(_isLogin ? 'Login' : 'Sign Up'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _isLogin = !_isLogin;
-                        });
-                      },
-                      child: Text(_isLogin ? 'Create an account' : 'I already have an account'),
-                    ),
-                  ],
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150,
+                  child: Image.asset(
+                    _isLogin ? 'assets/login.png' : 'assets/signup.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _userType,
+                          decoration: const InputDecoration(
+                            labelText: 'User Type',
+                            border: OutlineInputBorder(),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16.0),
+                          ),
+                          items: _userTypes.map((String userType) {
+                            return DropdownMenuItem<String>(
+                              value: userType,
+                              child: Text(userType),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              setState(() {
+                                _userType = value;
+                              });
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 20.0),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Email Address',
+                            border: OutlineInputBorder(),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16.0),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null ||
+                                value.trim().isEmpty ||
+                                !value.contains('@')) {
+                              return 'Please enter a valid email address.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _email = value ?? '';
+                          },
+                        ),
+                        const SizedBox(height: 20.0),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 16.0),
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.trim().length < 6) {
+                              return 'Password must be at least 6 characters long.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _password = value ?? '';
+                          },
+                        ),
+                        const SizedBox(height: 20.0),
+                        ElevatedButton(
+                          onPressed: _submitForm,
+                          child: Text(_isLogin ? 'Login' : 'Sign Up'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _isLogin = !_isLogin;
+                            });
+                          },
+                          child: Text(_isLogin
+                              ? 'Create an account'
+                              : 'I already have an account'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
     );
   }
 }

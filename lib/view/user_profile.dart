@@ -15,7 +15,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController phoneNumberController;
-  late TextEditingController addressController;
+  late TextEditingController locationController;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
     nameController = TextEditingController(text: widget.user.name);
     emailController = TextEditingController(text: widget.user.email);
     phoneNumberController = TextEditingController(text: widget.user.phoneNumber);
-    addressController = TextEditingController(text: widget.user.address);
+    locationController = TextEditingController(text: widget.user.location);
   }
 
   @override
@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
     nameController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
-    addressController.dispose();
+    locationController.dispose();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
     print('Name: ${nameController.text}');
     print('Email: ${emailController.text}');
     print('Phone Number: ${phoneNumberController.text}');
-    print('Address: ${addressController.text}');
+    print('Location: ${locationController.text}');
 
     // Show a success message
     showDialog(
@@ -85,6 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
+        backgroundColor: Colors.green,
         actions: [
           IconButton(
             icon: Icon(Icons.edit),
@@ -119,10 +120,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 20.0),
-                  _buildInfoRow('Name:', nameController, isEditing),
-                  _buildInfoRow('Email:', emailController, isEditing),
-                  _buildInfoRow('Phone Number:', phoneNumberController, isEditing),
-                  _buildInfoRow('Address:', addressController, isEditing),
+                  _buildInfoRow('Name :', nameController, isEditing),
+                  _buildInfoRow('Email :', emailController, isEditing),
+                  _buildInfoRow('Phone Number :', phoneNumberController, isEditing),
+                  _buildInfoRow('Location :', locationController, isEditing),
                   SizedBox(height: 20.0),
                   if (isEditing)
                     Center(

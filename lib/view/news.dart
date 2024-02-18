@@ -23,13 +23,15 @@
       final myWidth = MediaQuery.of(context).size.width;
       return Scaffold(
         appBar: AppBar(
-          title: Text("News"),
+          title: Text("News Data"),
+          backgroundColor: Colors.black54,
+          foregroundColor: Colors.white,
         ),
         body: FutureBuilder<NewsHeadlineModel>(
           future: newsViewModel.fetchHeadline(),
           builder: (BuildContext context, AsyncSnapshot<NewsHeadlineModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else {
@@ -99,5 +101,5 @@
 
   const spinKit2 = SpinKitFadingCircle(
     color: Colors.amber,
-    size: 50,
+    size: 10,
   );

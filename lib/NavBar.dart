@@ -3,7 +3,6 @@ import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/news.dart';
 import 'package:widget_wizards/view/transaction.dart';
 import 'package:widget_wizards/view/user_profile.dart';
-
 import 'model/user.dart';
 
 class NavBar extends StatefulWidget {
@@ -19,7 +18,7 @@ class _NavBarState extends State<NavBar> {
     name: 'John Doe',
     email: 'john.doe@example.com',
     phoneNumber: '+1 (123) 456-7890',
-    address: '123 Main Street, City, Country',
+    location: 'Mumbai',
   );
 
   void selectItem(int idx) {
@@ -49,12 +48,14 @@ class _NavBarState extends State<NavBar> {
         onTap: selectItem,
         items: [
           BottomNavigationBarItem(
+            backgroundColor: Colors.black87,
             icon: Icon(
-              Icons.fireplace_outlined,
-              color: index == 0 ? Colors.blue : Colors.grey,
+              Icons.data_exploration,
+              color: index == 0 ? Colors.white : Colors.grey,
             ),
             label: "News",
           ),
+
           BottomNavigationBarItem(
             icon: Icon(
               Icons.monetization_on_outlined,
@@ -62,17 +63,19 @@ class _NavBarState extends State<NavBar> {
             ),
             label: "Donation",
           ),
+
           BottomNavigationBarItem(
             icon: Icon(
               Icons.history,
-              color: index == 2 ? Colors.blue : Colors.grey,
+              color: index == 2 ? Colors.teal : Colors.grey,
             ),
             label: "Transaction",
           ),
+
           BottomNavigationBarItem(
             icon: Icon(
               Icons.account_circle_rounded,
-              color: index == 3 ? Colors.blue : Colors.grey,
+              color: index == 3 ? Colors.green : Colors.grey,
             ),
             label: "Profile",
           ),

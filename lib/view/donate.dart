@@ -46,7 +46,8 @@ class Donation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calamities'),
+        title: Text('Content & Donation'),
+        backgroundColor: Colors.lightBlueAccent,
       ),
       body:ListView.builder(
         itemCount: calamities.length,
