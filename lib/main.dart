@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:widget_wizards/NavBar.dart';
+import 'package:widget_wizards/paymentGateway/screens/transactionhistory.dart';
+import 'package:widget_wizards/paymentGateway/screens/usageofdonation.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NavBar()));
+                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>UsageOfDonation()));
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (ctx) => ClientProfile()));
                       },

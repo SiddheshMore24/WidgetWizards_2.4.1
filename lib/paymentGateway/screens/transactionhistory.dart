@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TransactionHistory extends StatelessWidget {
-  const TransactionHistory({Key? key}) : super(key: key);
+  TransactionHistory({Key? key, this.project, this.amount}) : super(key: key);
+
+  final project;
+  final amount;
+  final date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
