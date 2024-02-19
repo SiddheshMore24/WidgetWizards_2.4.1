@@ -37,6 +37,11 @@ Humanity Link is a Flutter application designed to facilitate seamless crisis ma
 - Add new crises or calamities to the platform seamlessly.
 - Manage donations received and maintain transparency.
 
+## Youtube Link
+https://www.youtube.com/watch?v=TJVYZK8heTI
+
+## Mobile Application APK
+https://drive.google.com/drive/folders/1Qnv13Y0YXkhbuKXSuPgWOQ5P_RxX_KLf
+
 ## Contributing
 Contributions to the Humanity Link Flutter Application are welcome! If you have any feature requests, bug reports, or suggestions for improvement, please open an issue or submit a pull request on GitHub.
-
