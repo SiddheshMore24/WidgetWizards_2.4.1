@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/paymentGateway/screens/usageofdonation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
 
+import '../organization/DonarList.dart';
 // Donation model class
 class DonationModel {
   final String title;
@@ -13,20 +17,62 @@ class DonationModel {
 
 
 // Dummy list of donations for testing
-List<DonationModel> donations = [
-  DonationModel(title: 'Donated for earthquake relief', date: DateTime.now(), amount: 500),
-  DonationModel(title: 'Donated for flood victims', date: DateTime.now().subtract(Duration(days: 2)), amount: 1000),
-  DonationModel(title: 'Donated for wildfire recovery', date: DateTime.now().subtract(Duration(days: 5)), amount: 750),
-  // Add more donations as needed
-];
 
 
 
 // Donation widget
-class Transaction extends StatelessWidget {
-  const Transaction({Key? key});
+class Transaction extends StatefulWidget {
+  Transaction({super.key,required this.users});
+Users users;
+  @override
+  State<Transaction> createState() => _TransactionState();
+}
 
-  
+class _TransactionState extends State<Transaction> {
+
+  List<Users> donations = [];
+
+  void initState() {
+    super.initState();
+    loadScreen();
+  }
+
+  var errorMessage;
+
+  void loadScreen() async {
+    final url = Uri.https(
+        "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'user.json');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode >= 400) {
+        setState(() {
+          errorMessage = "Failed to fetch data";
+        });
+      } else {
+        print(response.body);
+        final Map<String, dynamic> list = json.decode(response.body);
+        list.forEach((key, value) {
+          Users user = Users(
+            title: value['title'],
+            name: value['name'],
+            amount: value['amount'],
+          );
+          String name = widget.users.name == "" ? "Siddhesh" : widget.users.name;
+          if (widget.users.name
+              .contains(user.name)) {
+            setState(() {
+              donations.add(user);
+            });
+          }
+        });
+      }
+    } catch (error) {
+      setState(() {
+        errorMessage = "Error: $error";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +118,7 @@ class Transaction extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Date: ${donations[index].date.toString()}',
-                              style: TextStyle(fontSize: 14.0, color: Colors.grey),
-                            ),
+
                             Text(
                               'Amount: ₹${donations[index].amount.toStringAsFixed(2)}',
                               style: TextStyle(fontSize: 14.0, color: Colors.grey),

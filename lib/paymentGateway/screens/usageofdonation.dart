@@ -44,9 +44,12 @@ class UsageOfDonation extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Track Status"),
+        backgroundColor: Colors.teal,
       ),
       body: Timeline.tileBuilder(
-
+      theme: TimelineThemeData(
+        color: Colors.teal
+      ),
         builder: TimelineTileBuilder.fromStyle(
           contentsAlign: ContentsAlign.alternating,
           contentsBuilder: (context, index) => Padding(

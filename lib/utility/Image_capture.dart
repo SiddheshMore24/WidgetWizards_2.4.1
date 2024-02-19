@@ -14,7 +14,7 @@ class _ImageInputState extends State<ImageInput> {
 
   void _takePicture()async{
     final imagePicker=ImagePicker();
-    final pickedImage= await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
+    final pickedImage= await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 200,maxHeight: 100);
 
     if(pickedImage==null){
       return;
@@ -49,12 +49,24 @@ class _ImageInputState extends State<ImageInput> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton.icon(
-            icon: const Icon(Icons.camera_alt),
-            label: const Text('Take Picture from Camera'),
+            icon: const Icon(Icons.camera_alt,
+            color: Colors.teal,
+            ),
+            label: const Text('Take Picture from Camera',
+            style: TextStyle(
+              color: Colors.teal
+            ),
+            ),
             onPressed: _takePicture,
           ),
           SizedBox(height: 20,),
-          ElevatedButton(onPressed: _takeGallary, child: Text("Take from Gallary")),
+          ElevatedButton(onPressed: _takeGallary,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal),
+              ),
+              child: Text("Take from Gallary",
+
+          )),
         ],
       ),
     );

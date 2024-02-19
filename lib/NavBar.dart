@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widget_wizards/organization/DonarList.dart';
 import 'package:widget_wizards/view/donate.dart';
 import 'package:widget_wizards/view/news.dart';
 import 'package:widget_wizards/view/transaction.dart';
@@ -31,7 +32,13 @@ class _NavBarState extends State<NavBar> {
     return [
       NewsPage(),
       Donation(),
-      Transaction(),
+      Transaction(
+        users: Users(
+          name: "Vedant",
+          amount: 0,
+          title: " ",
+        ),
+      ),
       ProfilePage(user: user),
     ];
   }

@@ -25,6 +25,7 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
   var e = '';
   List<Crises> onGoing = [];
 
+
   void loadScreen() async {
     final url = Uri.https(
         "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
@@ -53,7 +54,9 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
             date: item.value['date'],
           );
           setState(() {
+            if(!onGoing.contains(crisis))
             onGoing.add(crisis);
+
           });
 
           print(crisis.title);
@@ -73,25 +76,31 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
       appBar: AppBar(
         title: Text('Ongoing Crises',
             style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blue, // Change app bar color
+        backgroundColor: Colors.teal, // Change app bar color
         actions: [
           IconButton(
             onPressed: () {
+              Crises temp = Crises(
+                image: null, // Set image to null
+                title: '',
+                location: '',
+                description: '',
+                totalDeaths: '',
+                totalInjured: '',
+                date: '',
+              );
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (ctx) => AddCrises(
-                          crises: Crises(
-                            image: null, // Set image to null
-                            title: '',
-                            location: '',
-                            description: '',
-                            totalDeaths: '',
-                            totalInjured: '',
-                            date: '',
-                          ),
+                          crises: temp
                         )),
+
               );
+              setState(() {
+                onGoing.add(temp);
+              });
+
             },
             icon: Icon(Icons.add),
           ),
@@ -110,6 +119,7 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
                   MaterialPageRoute(
                     builder: (context) => DonorList(
                       title: onGoing[index].title,
+                      crises: onGoing[index],
                     ),
                   ),
                 );
@@ -124,7 +134,7 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue, // Change the color as per your design
+                      color: Colors.teal, // Change the color as per your design
                     ),
                   ),
                   subtitle: Column(
@@ -171,7 +181,7 @@ class _OnGoingCrisesState extends State<OnGoingCrises> {
                   // ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
-                    color: Colors.blue,
+                    color: Colors.teal,
                   ),
                 ),
               ),

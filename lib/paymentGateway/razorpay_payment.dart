@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:widget_wizards/organization/DonarList.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:widget_wizards/view/transaction.dart';
+
 class Trans {
-  late int recamount; 
+  late int recamount;
   late String title;
   late DateTime date;
 
-  Trans( this.title, this.recamount,  this.date);
+  Trans(this.title, this.recamount, this.date);
 }
 
 class RazorpayPage extends StatefulWidget {
-   RazorpayPage({super.key,required this.Title}) ;
-  String  Title;
+  RazorpayPage({super.key, required this.Title});
+  String Title;
 
   @override
   State<RazorpayPage> createState() => _RazorpayPageState();
@@ -25,13 +28,13 @@ class _RazorpayPageState extends State<RazorpayPage> {
   late Razorpay _razorpay;
   TextEditingController amtController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  late int recamount; 
+  late int recamount;
   late String title;
   late DateTime date;
 
   // Trans trans = Trans(title: title, recamount: recamount, date: date);
 
-  void openCheckout(amount)  {
+  void openCheckout(amount) {
     amount = amount * 100;
     var options = {
       'key': 'rzp_test_1DP5mmOlF5G5ag',
@@ -59,10 +62,19 @@ class _RazorpayPageState extends State<RazorpayPage> {
   }
 
   void handlePaymentSuccess(PaymentSuccessResponse response) {
-    
     Fluttertoast.showToast(
         msg: "Payment successful ${response.paymentId!}",
         toastLength: Toast.LENGTH_SHORT);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (ctx) => Transaction(
+              users: Users(
+                  title: widget.Title,
+                  amount: int.parse(amtController.text.toString()),
+                  name: nameController.text))),
+    );
   }
 
   void handlePaymentError(PaymentFailureResponse response) {
@@ -92,7 +104,6 @@ class _RazorpayPageState extends State<RazorpayPage> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWallet);
-
   }
 
   @override
@@ -137,7 +148,8 @@ class _RazorpayPageState extends State<RazorpayPage> {
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
                         labelText: 'Enter amount to be paid',
-                        labelStyle: TextStyle(fontSize: 15, color: Colors.white),
+                        labelStyle:
+                            TextStyle(fontSize: 15, color: Colors.white),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.white,
@@ -161,68 +173,66 @@ class _RazorpayPageState extends State<RazorpayPage> {
                       },
                     ),
                     const SizedBox(
-                height: 30,
-              ),
+                      height: 30,
+                    ),
                     TextFormField(
-                  cursorColor: Colors.white,
-                  autofocus: false,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Donor Name',
-                    labelStyle: TextStyle(fontSize: 15, color: Colors.white),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
+                      cursorColor: Colors.white,
+                      autofocus: false,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Enter Donor Name',
+                        labelStyle:
+                            TextStyle(fontSize: 15, color: Colors.white),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 1.0,
+                          ),
+                        ),
+                        errorStyle: TextStyle(color: Colors.red, fontSize: 15),
                       ),
+                      controller: nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please valid name';
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.white,
-                        width: 1.0,
-                      ),
-                    ),
-                    errorStyle: TextStyle(color: Colors.red, fontSize: 15),
-                  ),
-                  controller: nameController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please valid name';
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
                   ],
                 ),
-
               ),
               const SizedBox(
                 height: 30,
               ),
               ElevatedButton(
                 onPressed: () async {
+                  final url = Uri.https(
+                      "widgetwizards-c50c8-default-rtdb.firebaseio.com",
+                      'user.json');
+                  final response = await http.post(url,
+                      headers: {
+                        'Content-type': 'crises/json',
+                      },
+                      body: json.encode({
+                        'name': nameController.text,
+                        'title': widget.Title,
+                        'amount': int.parse(amtController.text.toString()),
+                        // 'image': ImageUrl,
+                      }));
+                  print(response);
 
-                    final url = Uri.https(
-            "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'user.json');
-        final response = await http.post(url,
-            headers: {
-              'Content-type': 'crises/json',
-            },
-            body: json.encode({
-              'name':nameController.text,
-              'title' : widget.Title,
-              'amount' : int.parse(amtController.text.toString()),
-              // 'image': ImageUrl,
-            }));
-        print(response);
-
-
-                    setState(() {
-                      int amount = int.parse(amtController.text.toString());
-                      recamount = amount;
-                      openCheckout(amount);
-                    });
-
+                  setState(() {
+                    int amount = int.parse(amtController.text.toString());
+                    recamount = amount;
+                    openCheckout(amount);
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,

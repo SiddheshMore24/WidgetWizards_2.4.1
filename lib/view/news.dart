@@ -59,7 +59,8 @@ class _NewsState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News'),
+        backgroundColor: Colors.teal,
+        title: Text('News Data'),
       ),
       body: Theme(
         data: ThemeData.light(),
@@ -83,6 +84,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+
       margin: EdgeInsets.all(12.0),
       elevation: 4,
       shape: RoundedRectangleBorder(

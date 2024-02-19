@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/organization/crises.dart';
+import 'package:widget_wizards/organization/organization_homepage.dart';
 import 'package:widget_wizards/utility/Image_capture.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -86,6 +87,13 @@ class _AddCrisesState extends State<AddCrises> {
     print('Total Injured: ${totalInjuredController.text}');
     print('Total Deaths: ${totalDeathsController.text}');
     print('Date : ${formatter.format(_selectedDate!)}');
+    widget.crises.title = titleController.text;
+    widget.crises.location = locationController.text;
+    widget.crises.description = descriptionController.text;
+    widget.crises.totalInjured = totalInjuredController.text;
+    widget.crises.totalDeaths = totalDeathsController.text;
+    widget.crises.date = formatter.format(_selectedDate!);
+
 
     final url = Uri.https(
         "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
@@ -112,8 +120,14 @@ class _AddCrisesState extends State<AddCrises> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (ctx) => OrganizationScreen(),
+              //   ),
+              // );
+              Navigator.pop(context);
+              Navigator.pop(context);
             },
             child: Text('OK'),
           ),
@@ -126,6 +140,7 @@ class _AddCrisesState extends State<AddCrises> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: Text('Crises'),
         actions: [
           // IconButton(
@@ -196,6 +211,9 @@ class _AddCrisesState extends State<AddCrises> {
                     onPressed: () {
                       _saveChanges(context);
                     },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal),
+                    ),
                     child: Text('Save'),
                   ),
                 ],
@@ -216,7 +234,7 @@ class _AddCrisesState extends State<AddCrises> {
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: Colors.teal,
           ),
         ),
         SizedBox(height: 5.0),
@@ -225,7 +243,7 @@ class _AddCrisesState extends State<AddCrises> {
                 controller: controller,
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Colors.black,
+                  color: Colors.teal,
                 ),
               )
             : Text(

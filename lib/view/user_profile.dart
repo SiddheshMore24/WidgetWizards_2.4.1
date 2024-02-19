@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Icon(Icons.check_circle, color: Colors.green, size: 50),
+        title: Icon(Icons.check_circle, color: Colors.teal, size: 50),
         content: Text('Profile saved successfully'),
         actions: [
           TextButton(
@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.teal,
         actions: [
           IconButton(
             icon: Icon(Icons.edit),
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Center(
                     child: CircleAvatar(
                       radius: 60.0,
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.teal,
                       child: Icon(
                         Icons.person,
                         size: 60.0,
@@ -154,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: Colors.teal
           ),
         ),
         SizedBox(height: 5.0),

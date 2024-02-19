@@ -15,7 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MyApp());
 
 }
 
@@ -27,39 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
        debugShowCheckedModeBanner: false,
-      home: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text("Main Screen"),
-            ),
-            body: Center(
-              child: Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NavBar()));
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (ctx) => ClientProfile()));
-                      },
-                      child: Text("UserHomePage")),
-                      ElevatedButton(
-                      onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>AuthScreen2()));
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (ctx) => ClientProfile()));
-                      },
-                      child: Text("Authentication")),
-                        ElevatedButton(
-                      onPressed: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>OrganizationScreen()));
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (ctx) => ClientProfile()));
-                      },
-                      child: Text("Organization Home Page")),
-                ],
-              ),
-            ),
-          )),
+      home: AuthScreen2(),
     );
   }
 }

@@ -78,7 +78,7 @@ class _OtpScreenState extends State<OtpScreen> {
             </div>
             <div class="content">
                 <p>Dear User,</p>
-                <p>Thank you for choosing {{app_name}}. Your One-Time Password (OTP) is:</p>
+                <p>Thank you for choosing {{app_name}}. Your One-Time Password (OTP) is: </p>
                 <p class="otp">{{otp}}</p>
                 <p>Please use this OTP to complete your authentication process.</p>
             </div>
@@ -93,81 +93,102 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Card(
+              color: Colors.teal,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            "Otp Will be send on your email Id : ${widget.emailId}")),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "OTP will be sent to your email ID: ${widget.emailId}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
                     ElevatedButton(
-                        onPressed: () async {
-                          myauth.setConfig(
-                              appEmail: "sujit.shaha22@pccoepune.org",
-                              appName: "Email OTP",
-                              userEmail: widget.emailId,
-                              otpLength: 6,
-                              otpType: OTPType.digitsOnly);
-                          myauth.setTemplate(render: template);
-                          myauth.setTheme(theme: "v3");
-                          if (await myauth.sendOTP() == true) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
+                      onPressed: () async {
+                        myauth.setConfig(
+                          appEmail: "sujit.shaha22@pccoepune.org",
+                          appName: "Email OTP",
+                          userEmail: widget.emailId,
+                          otpLength: 6,
+                          otpType: OTPType.digitsOnly,
+                        );
+                        myauth.setTemplate(render: template);
+                        myauth.setTheme(theme: "v3");
+                        if (await myauth.sendOTP()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
                               content: Text("OTP has been sent"),
-                            ));
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
                               content: Text("Oops, OTP send failed"),
-                            ));
-                          }
-                        },
-                        child: const Text("Send OTP")),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text("Send OTP"),
+                    ),
+                    SizedBox(height: 20), // Add some spacing between text and button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: TextFormField(
+                        controller: otp,
+                        decoration: const InputDecoration(
+                          hintText: "Enter OTP",
+                          hintStyle: TextStyle(color: Colors.white),
+                        ),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (await myauth.verifyOTP(otp: otp.text)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("OTP is verified"),
+                            ),
+                          );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => OrganizationScreen(),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Invalid OTP"),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text("Verify"),
+                    ),
                   ],
                 ),
               ),
-              Card(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                          controller: otp,
-                          decoration:
-                              const InputDecoration(hintText: "Enter OTP")),
-                    ),
-                    ElevatedButton(
-                        onPressed: () async {
-                          if (await myauth.verifyOTP(otp: otp.text) == true) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("OTP is verified"),
-                            ));
-                            Navigator.push(
-                              context,
-                              (MaterialPageRoute(
-                                  builder: (ctx) => OrganizationScreen())),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text("Invalid OTP"),
-                            ));
-                          }
-                        },
-                        child: const Text("Verify")),
-                  ],
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
+
+
   }
 }

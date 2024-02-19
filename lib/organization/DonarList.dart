@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'crises.dart';
+
 class Users {
   final String name;
   final String title;
@@ -16,8 +18,9 @@ class Users {
 
 class DonorList extends StatefulWidget {
   final String title;
+  final Crises crises;
 
-  DonorList({required this.title});
+  DonorList({required this.title, required this.crises});
 
   @override
   State<DonorList> createState() => _DonorListState();
@@ -26,6 +29,8 @@ class DonorList extends StatefulWidget {
 class _DonorListState extends State<DonorList> {
   var errorMessage = '';
   List<Users> donorList = [];
+  int sum = 0;
+  int dCount = 0;
 
   @override
   void initState() {
@@ -50,9 +55,11 @@ class _DonorListState extends State<DonorList> {
             name: value['name'],
             amount: value['amount'],
           );
-          if (user.title == widget.title) {
+          if (widget.title.contains(user.title)) {
             setState(() {
               donorList.add(user);
+              sum += user.amount;
+              dCount++;
             });
           }
         });
@@ -66,49 +73,78 @@ class _DonorListState extends State<DonorList> {
 
   @override
   Widget build(BuildContext context) {
+    var HeightScreen = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text('Donor List', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blue,
+        title: Text('Donor List', style: TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.teal,
       ),
-      body: errorMessage.isNotEmpty
-          ? Center(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              height: HeightScreen * 0.4,
+              child: Column(
+                children: [
+                  Container(
+                    height: HeightScreen * 0.3,
+
+                    child: widget.crises.image == null ? Image.asset('assets/apple.jpg',fit: BoxFit.cover,) : Image.file(widget.crises.image!,
+                    fit: BoxFit.cover,),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Total Donor Count : $dCount"),
+                      SizedBox(width: 5,),
+                      Text("Total Donation Available : Rs.$sum"),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            errorMessage.isNotEmpty
+                ? Center(
               child: Text(errorMessage),
             )
-          : donorList.isEmpty
-              ? Center(
-                  child: Text('No data available'),
-                )
-              : ListView.builder(
-                  itemCount: donorList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      elevation: 4,
-                      child: ListTile(
-                        title: Text(
-                          donorList[index].name,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Amount: ${donorList[index].amount}',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: const Color.fromRGBO(0, 0, 0, 0.867),
-                          ),
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
+                : donorList.isEmpty
+                ? Container(
+              height: HeightScreen * 0.45,
+              child: Center(
+                child: Text('No data available'),
+              ),
+            )
+                : Expanded(
+              child: ListView.builder(
+                itemCount: donorList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 4,
+                    child: ListTile(
+                      title: Text(
+                        donorList[index].name,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
                           color: Colors.blue,
                         ),
                       ),
-                    );
-                  },
-                ),
+                      subtitle: Text(
+                        'Amount: ${donorList[index].amount}',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          color: const Color.fromRGBO(0, 0, 0, 0.867),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

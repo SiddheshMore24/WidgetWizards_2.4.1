@@ -1,56 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:widget_wizards/paymentGateway/razorpay_payment.dart';
 import 'package:widget_wizards/view/payment.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Define a class to represent a calamity
 class Calamity {
-  final String name;
+  final String title;
   final String description;
 
-  Calamity({required this.name, required this.description});
+  Calamity({required this.title, required this.description});
 }
 
-// Dummy data for calamities
-List<Calamity> calamities = [
-  Calamity(
-    name: 'Earthquake in XYZ region',
-    description: 'This calamity is about the recent earthquake...',
-  ),
-  Calamity(
-    name: 'Floods in ABC province',
-    description: 'Heavy rains have caused severe flooding in...',
-  ),
-  Calamity(
-    name: 'Hurricane in Coastal Region',
-    description: 'A powerful hurricane has made landfall in the coastal region, causing widespread destruction and flooding. Many homes and infrastructure have been severely damaged, and thousands of people are in need of immediate assistance.',
-  ),
-  Calamity(
-    name: 'Wildfire in Mountainous Area',
-    description: 'A large wildfire has broken out in the mountainous area, spreading rapidly due to dry conditions and strong winds. The fire has engulfed acres of forestland, threatening wildlife and nearby communities. Firefighters are working tirelessly to contain the blaze.',
-  ),
-  Calamity(
-    name: 'Tornado Strike in Suburban Town',
-    description: 'A destructive tornado has struck a suburban town, leaving a trail of devastation in its wake. Homes have been torn apart, vehicles overturned, and trees uprooted. Emergency services are scrambling to rescue survivors and provide medical aid.',
-  ),
-  Calamity(
-    name: 'Drought in Agricultural Region',
-    description: 'An ongoing drought has gripped an agricultural region, leading to crop failures, water shortages, and economic hardship for farmers. Livestock are suffering from lack of food and water, and communities are facing food insecurity. Relief efforts are underway to provide assistance to affected areas.',
-  ),
-  Calamity(
-    name: 'Volcanic Eruption on Island',
-    description: 'A volcanic eruption has occurred on a remote island, spewing ash and lava into the air. Nearby settlements are at risk of pyroclastic flows and ashfall, forcing residents to evacuate to safer areas. Authorities are monitoring the situation closely and coordinating evacuation and relief efforts.',
-  ),
-];
+class Donation extends StatefulWidget {
+  @override
+  State<Donation> createState() => _DonationState();
+}
 
-class Donation extends StatelessWidget {
+class _DonationState extends State<Donation> {
+  List<Calamity> calamities = [];
+  var errorMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    loadScreen();
+  }
+
+  void loadScreen() async {
+    final url = Uri.https(
+        "widgetwizards-c50c8-default-rtdb.firebaseio.com", 'crises.json');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode >= 400) {
+        setState(() {
+          errorMessage = "Failed to fetch data";
+        });
+      } else {
+        final Map<String, dynamic> list = json.decode(response.body);
+        list.forEach((key, value) {
+          Calamity calamity = Calamity(
+            title: value['title'],
+            description: value['description'],
+          );
+          print(response.body);
+          if (!calamities.contains(calamity)) {
+            setState(() {
+              calamities.add(calamity);
+            });
+          }
+        });
+      }
+    } catch (error) {
+      setState(() {
+        errorMessage = "Error: $error";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Content & Donation'),
-        backgroundColor: Colors.lightBlueAccent,
+        title: Text('Awareness'),
+        backgroundColor: Colors.teal,
       ),
-      body:ListView.builder(
+      body: ListView.builder(
         itemCount: calamities.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -61,7 +77,8 @@ class Donation extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CalamityDetailPage(calamity: calamities[index]),
+                    builder: (context) =>
+                        CalamityDetailPage(calamity: calamities[index]),
                   ),
                 );
               },
@@ -80,11 +97,11 @@ class Donation extends StatelessWidget {
                 ),
                 child: ListTile(
                   title: Text(
-                    calamities[index].name,
+                    calamities[index].title,
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue, // Change the color as per your design
+                      color: Colors.teal, // Change the color as per your design
                     ),
                   ),
                   subtitle: Text(
@@ -96,15 +113,16 @@ class Donation extends StatelessWidget {
                       color: Colors.black54,
                     ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  leading: Icon(
-                    Icons.error_outline,
-                    color: Colors.red,
-                    size: 36.0,
-                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 20.0),
+                  // leading: Icon(
+                  //   Icons.error_outline,
+                  //   color: Colors.red,
+                  //   size: 36.0,
+                  // ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
-                    color: Colors.blue,
+                   color: Colors.teal,
                   ),
                 ),
               ),
@@ -112,7 +130,6 @@ class Donation extends StatelessWidget {
           );
         },
       ),
-
     );
   }
 }
@@ -126,6 +143,7 @@ class CalamityDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: Text('Calamity Details'),
       ),
       body: Padding(
@@ -152,11 +170,11 @@ class CalamityDetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      calamity.name,
+                      calamity.title,
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent,
+                        color: Colors.teal
                       ),
                     ),
                     SizedBox(height: 10.0),
@@ -171,12 +189,19 @@ class CalamityDetailPage extends StatelessWidget {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RazorpayPage(Title :calamity.name)));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RazorpayPage(
+                                Title: calamity.title,
+                              ),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blueAccent,
-                          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+                          primary:Colors.teal,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40.0, vertical: 15.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
@@ -198,7 +223,6 @@ class CalamityDetailPage extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }

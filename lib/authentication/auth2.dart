@@ -58,6 +58,27 @@ class _AuthScreen2State extends State<AuthScreen2> {
           email: _email,
           password: _password,
         );
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Icon(Icons.check_circle, color: Colors.green, size: 50),
+            content: Text('Account created successfully'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (ctx) => OrganizationScreen(),
+                  //   ),
+                  // );
+                  Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NavBar()));
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
       }
       print(userCredential);
     } on FirebaseAuthException catch (error) {
@@ -72,6 +93,11 @@ class _AuthScreen2State extends State<AuthScreen2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        centerTitle: true,
+        title: Text("Humanity Link"),
+      ),
       backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
@@ -156,6 +182,10 @@ class _AuthScreen2State extends State<AuthScreen2> {
                         ),
                         const SizedBox(height: 20.0),
                         ElevatedButton(
+                          style: ButtonStyle(
+
+                           backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.teal),
+                          ),
                           onPressed: _submitForm,
                           child: Text(_isLogin ? 'Login' : 'Sign Up'),
                         ),
@@ -167,7 +197,11 @@ class _AuthScreen2State extends State<AuthScreen2> {
                           },
                           child: Text(_isLogin
                               ? 'Create an account'
-                              : 'I already have an account'),
+                              : 'I already have an account',
+                          style: TextStyle(
+                            color: Colors.teal
+                          ),
+                          ),
                         ),
                       ],
                     ),
